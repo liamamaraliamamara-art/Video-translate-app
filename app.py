@@ -1,35 +1,36 @@
 import streamlit as st
+import os
 
-# Page Configuration
-st.set_page_config(
-    page_title="Video Translator App",
-    page_icon="🎬",
-    layout="centered"
-)
+st.set_page_config(page_title="AI Video Translator", page_icon="🎥", layout="centered")
 
-# App Title & Description
-st.title("🎬 Video Translator App")
-st.write("ဗီဒီယိုဖိုင်များကို တင်၍ ဘာသာပြန်ဆိုနိုင်သော ဝဘ်ဆိုဒ် (Free & Mobile-friendly)")
+st.title("🎥 AI ဗီဒီယို ဘာသာပြန်အက်ပ်")
+st.write("တရုတ်ဘာသာ သို့မဟုတ် အခြားဘာသာစကားဖြင့် ပြုလုပ်ထားသော ဗီဒီယိုများကို မြန်မာဘာသာသို့ လွယ်ကူစွာ ဘာသာပြန်ဆိုနိုင်ပါပြီ။")
 
-# File Uploader
-uploaded_file = st.file_uploader(
-    "ဗီဒီယိုဖိုင်ကို ရွေးချယ်ပါ", 
-    type=["mp4", "mov", "avi", "mkv"]
-)
+# ဘာသာစကား ရွေးချယ်ရန်
+source_lang = st.selectbox("မူရင်း ဗီဒီယို ဘာသာစကား", ["တရုတ် (Chinese)", "အင်္ဂလိပ် (English)", "ကိုရီးယား (Korean)", "ဂျပန် (Japanese)"])
+target_lang = st.selectbox("ပြောင်းလဲလိုသော ဘာသာစကား", ["မြန်မာ (Myanmar)", "အင်္ဂလိပ် (English)"])
 
-if uploaded_file is not None:
-    st.success("ဗီဒီယိုဖိုင် အောင်မြင်စွာ တင်ပြီးပါပြီ!")
+# ဗီဒီယိုဖိုင် တင်ရန် နေရာ
+video_file = st.file_uploader("ဗီဒီယိုဖိုင်ကို ရွေးချယ်ပါ (MP4, MOV, AVI)", type=["mp4", "mov", "avi"])
+
+if video_file is not None:
+    # တင်ထားသော ဗီဒီယိုကို ပြသရန်
+    st.video(video_file)
     
-    # Display the uploaded video
-    st.video(uploaded_file)
-    
-    # Translation Controls
-    target_language = st.selectbox(
-        "ဘာသာပြန်မည့် ဘာသာစကားကို ရွေးပါ",
-        ["မြန်မာ (Myanmar)", "English", "Thai", "Chinese", "Japanese"]
-    )
-    
-    if st.button("ဘာသာပြန်စတင်ရန်"):
-        with st.spinner("ဘာသာပြန်ဆိုခြင်း လုပ်ဆောင်နေပါပြီ... ခဏစောင့်ပေးပါ။"):
-            # Placeholder for future translation logic
-            st.info(f"ရွေးချယ်ထားသော ဘာသာစကား ({target_language}) သို့ ဘာသာပြန်ခြင်း ပြီးဆုံးပါပြီ။")
+    if st.button("🚀 ဘာသာပြန်စတင်ရန်"):
+        with st.spinner("ဗီဒီယိုကို ဘာသာပြန်ဆိုနေပါပြီ... ခဏစောင့်ပါ..."):
+            # နောက်ခံ လုပ်ဆောင်ချက်များ (Whisper AI / Translation API များကို ဤနေရာတွင် ချိတ်ဆက်မည်)
+            import time
+            time.sleep(3) # စမ်းသပ်ရန် ခဏစောင့်ခိုင်းခြင်း
+            
+        st.success("✅ ဘာသာပြန်ခြင်း ပြီးဆုံးပါပြီ!")
+        
+        # နမူနာ ဘာသာပြန်ရလဒ်ပြသရန်
+        st.subheader("📝 ဘာသာပြန်စာသား (Subtitles / Transcript):")
+        st.markdown("""
+        - **[00:01 - 00:05]** (တရုတ်မူရင်း): 大家好，欢迎来到本期视频。
+        - **[00:01 - 00:05]** (မြန်မာဘာသာပြန်): အားလုံးပဲ မင်္ဂလာပါ၊ ဒီဗီဒီယိုမှ ကြိုဆိုပါတယ်။
+        
+        - **[00:05 - 00:10]** (တရုတ်မူရင်း): 今天我们来聊聊最新的人工智能技术。
+        - **[00:05 - 00:10]** (မြန်မာဘာသာပြန်): ဒီနေ့ ကျွန်တော်တို့ နောက်ဆုံးပေါ် AI နည်းပညာတွေအကြောင်း ဆွေးနွေးကြမယ်။
+        """)
