@@ -1,4 +1,4 @@
 streamlit
-openai
 moviepy==1.0.3
+SpeechRecognition
 deep-translator
